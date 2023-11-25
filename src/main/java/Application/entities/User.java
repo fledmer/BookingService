@@ -1,26 +1,26 @@
 package Application.entities;
 
-import Application.services.CarAlreadyBookedException;
-import Application.services.CarNotBookedException;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import lombok.Getter;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
-import java.time.LocalDateTime;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
-@Setter
-@Getter
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "users")
 public class User {
-    @jakarta.persistence.Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", unique = true)
     private Long id;
-    @Column(name = "login", unique = true)
-    private String login;
-    @Column(name = "name", unique = true)
+    @Column(name = "username", unique = true)
+    private String username;
+    @Column(name = "password")
     private String password;
+    @Column(name = "enabled")
+    private Boolean enabled = Boolean.TRUE;
+
 }

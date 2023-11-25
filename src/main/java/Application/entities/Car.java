@@ -1,23 +1,19 @@
 package Application.entities;
 
-import Application.services.CarAlreadyBookedException;
-import Application.services.CarNotBookedException;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
+import Application.exception.CarAlreadyBookedException;
+import Application.exception.CarNotBookedException;
+import javax.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.annotation.Id;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 @Entity
 @Setter
 @Getter
+@Table(name = "car")
 public class Car {
-    @jakarta.persistence.Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true)
     private Long id;
