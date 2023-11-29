@@ -1,6 +1,7 @@
 package Application.controllers;
 
 import Application.pojo.AuthRequest;
+import Application.pojo.MyUserPrincipal;
 import Application.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

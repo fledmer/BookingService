@@ -3,6 +3,8 @@ package Application.entities;
 import Application.exception.CarAlreadyBookedException;
 import Application.exception.CarNotBookedException;
 import javax.persistence.*;
+
+import Application.pojo.MyUserPrincipal;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,61 +23,34 @@ public class Car {
     private String brand;
     @Column(name = "model")
     private String model;
+    @Column(name = "owner_id")
+    private Long owner_id;
     @Column(name = "booked")
     private boolean booked;
+    @Column(name = "booker_id")
+    private Long booker_id;
     @Column(name = "booking_start_time")
     private LocalDateTime bookingStartTime;
 
-    public void setBooked() {
+
+    public void setBooked(MyUserPrincipal user) {
         if(this.booked){
               throw new CarAlreadyBookedException("Car already booked, id:" + this.id);
         }
         this.booked = true;
         this.bookingStartTime = LocalDateTime.now();
+        this.booker_id = user.getId();
     }
 
-    public void setUnband() {
+    public void setUnband(MyUserPrincipal user) {
+        if (user.getId() != this.booker_id){
+            return;
+        }
         if(!this.booked){
               throw new CarNotBookedException("Car not booked, id:" + this.id);
         }
         this.booked = false;
         this.bookingStartTime = null;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public LocalDateTime getBookingStartTime() {
-        return bookingStartTime;
-    }
-
-    public void setBookingStartTime(LocalDateTime bookingStartTime) {
-        this.bookingStartTime = bookingStartTime;
-    }
-
-    public String getBrand() {
-        return brand;
-    }
-
-    public void setBrand(String brand) {
-        this.brand = brand;
-    }
-
-    public String getModel() {
-        return model;
-    }
-
-    public void setModel(String model) {
-        this.model = model;
-    }
-
-    public boolean isBooked() {
-        return booked;
     }
 }
 
