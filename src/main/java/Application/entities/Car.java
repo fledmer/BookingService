@@ -18,15 +18,15 @@ public class Car {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true)
-    private Long id;
+    public Long id;
     @Column(name = "brand")
-    private String brand;
+    public String brand;
     @Column(name = "model")
-    private String model;
+    public String model;
     @Column(name = "owner_id")
-    private Long owner_id;
+    public Long owner_id;
     @Column(name = "booked")
-    private boolean booked;
+    public boolean booked;
     @Column(name = "booker_id")
     private Long booker_id;
     @Column(name = "booking_start_time")
@@ -44,7 +44,7 @@ public class Car {
 
     public void setUnband(MyUserPrincipal user) {
         if (user.getId() != this.booker_id){
-            return;
+            throw new CarNotBookedException("You are not booker, id:" + this.id);
         }
         if(!this.booked){
               throw new CarNotBookedException("Car not booked, id:" + this.id);

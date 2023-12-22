@@ -22,7 +22,7 @@ public class CarService {
     }
 
     public Car addCar(Car car, MyUserPrincipal principal) {
-        car.setOwner_id(principal.getId());
+        car.owner_id = principal.getId();
         return carRepository.save(car);
     }
 
@@ -32,6 +32,18 @@ public class CarService {
         if (optionalCar.isPresent()) {
             Car car = optionalCar.get();
             car.setBooked(principal);
+            return carRepository.save(car);
+        } else {
+            throw new CarNotFoundException("Car not found with id: " + carId);
+        }
+    }
+
+    public Car unbookCar(Long carId, MyUserPrincipal principal) {
+        byId = carRepository.findById(carId);
+        Optional<Car> optionalCar = byId;
+        if (optionalCar.isPresent()) {
+            Car car = optionalCar.get();
+            car.setUnband(principal);
             return carRepository.save(car);
         } else {
             throw new CarNotFoundException("Car not found with id: " + carId);

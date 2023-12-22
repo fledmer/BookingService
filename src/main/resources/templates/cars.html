@@ -1,0 +1,134 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<head>
+    <title>Spring Boot Thymeleaf + Spring Security</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+        }
+
+        table {
+            width: 50%;
+            border-collapse: collapse;
+            margin: 20px auto; /* Центрирование таблицы */
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #ddd;
+            background-color: #f2f2f2;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .btn-book {
+            background-color: #008CBA;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .btn-cancel {
+            background-color: #d9534f;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h2>Car List</h2>
+</header>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Brand</th>
+        <th>Model</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="car: ${cars}">
+        <td th:text="${car.getId()}" />
+        <td th:text="${car.getBrand()}" />
+        <td th:text="${car.getModel()}" />
+        <td>
+            <button th:if="${not car.isBooked()}" class="btn-book" th:onclick="@{'bookCar(' + ${car.getId()} + ')'}">Забронировать</button>
+            <button th:if="${car.isBooked()}" class="btn-cancel" th:onclick="@{'unbookCar(' + ${car.getId()} + ')'}">Разбронировать</button>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<!-- Form for adding a new car -->
+<form th:action="@{'/cars/add'}" method="get">
+    <button type="submit" class="btn-add">Add New Car</button>
+</form>
+<script>
+    function bookCar(carId) {
+            $.ajax({
+            type: "POST",
+            url: "/cars/" + String(carId) + "/book",
+            contentType: "application/json",
+            success: function(response) {
+                window.alert("Машина успешно забронирована");
+                console.log("adding car!");
+            },
+            error: function(error) {
+                window.alert("Машина успешно забронирована");
+                console.error("Error adding car:", error);
+            }
+        });
+    }
+        function bookCar(carId) {
+            $.ajax({
+            type: "POST",
+            url: "/cars/" + String(carId) + "/book",
+            contentType: "application/json",
+            success: function(response) {
+                window.alert("Машина успешно забронирована");
+                console.log("adding car!");
+            },
+            error: function(error) {
+                window.alert("Машина успешно забронирована");
+                console.error("Error adding car:", error);
+            }
+        });}
+
+        function unbookCar(carId) {
+            $.ajax({
+            type: "POST",
+            url: "/cars/" + String(carId) + "/unbook",
+            contentType: "application/json",
+            success: function(response) {
+                window.alert("Машина успешно разбронирована");
+                console.log("adding car!");
+            },
+            error: function(error) {
+                window.alert("Машина успешно разбронирована");
+                console.error("Error adding car:", error);
+            }
+        });}
+</script>
+</body>
+</html>
